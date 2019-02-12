@@ -1,0 +1,118 @@
+package assignment.pkg1;
+
+import java.awt.Component;
+import java.util.Scanner;
+import javafx.application.Application;
+import static javafx.application.Application.launch;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.shape.ArcType;
+import javafx.stage.Stage;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import java.lang.*;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Pham Van Phuc StudentId: 000761144
+ */
+public class Assignment1 extends Application {
+
+    /**
+     * Start method (use this instead of main).
+     *
+     * @param stage The FX stage to draw on
+     * @throws Exception
+     */
+    @Override
+    public void start(Stage stage) throws Exception {
+
+        Group root = new Group();
+        Scene scene = new Scene(root);
+        Canvas canvas = new Canvas(2000, 800);
+        root.getChildren().add(canvas);
+        stage.setScene(scene);
+        stage.show();
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        // YOUR STUFF GOES HERE (remove the code below)
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        // Draw Sky with random stars
+        for (int i = 1000; i > 1; i--) {
+
+            int xRandomStar = (int) (Math.random() * 2000);
+            int yRandomStar = (int) (Math.random() * 800);
+            int size = (int) (Math.random() * 40);
+
+            gc.setFill(Color.WHITESMOKE);
+            gc.setFont(new Font("Comic Sans Ms", size));
+            gc.fillText(".", xRandomStar, yRandomStar);
+        }
+
+        // Validate the number that user input
+        int[] xPointArray = new int[16];
+        int[] yPointArray = new int[16];
+
+        for (int m = 0; m <= 15; m += 1) {
+
+            while (true) {
+                String xLocationString
+                        = JOptionPane.showInputDialog("Enter number of x" + m);
+                xPointArray[m] = Integer.parseInt(xLocationString);
+
+                String yLocationString
+                        = JOptionPane.showInputDialog("Enter number of y" + m);
+                yPointArray[m] = Integer.parseInt(yLocationString);
+
+                if (xPointArray[m] > 2000 || xPointArray[m] < 0 || yPointArray[m] > 800 || yPointArray[m] < 0) {
+
+                    JOptionPane.showMessageDialog(null, "Out of range. Please enter x,y again.");
+                } else {
+                    break;
+                }
+
+            }
+
+        }
+        // Draw the constellation
+        for (int n = 0; n <= 15; n++) {
+            gc.setFill(Color.WHEAT);
+            gc.fillOval(xPointArray[n], yPointArray[n], 8, 8);
+
+        }
+        for (int n = 0; n < 15; n++) {
+
+            gc.setStroke(Color.WHEAT);
+            gc.strokeLine(xPointArray[n] + 4, yPointArray[n] + 4, xPointArray[n + 1] + 4, yPointArray[n + 1] + 4);
+
+        }
+        
+        // Write the title
+        String title
+                = JOptionPane.showInputDialog("Please enter the name: ");
+        gc.setFill(Color.WHITESMOKE);
+        gc.setFont(new Font("Comic Sans Ms", 30));
+        gc.fillText(title, 800, 650);
+        gc.fillText("Programmed by VanPhuc Pham", 800, 700);
+
+        
+
+
+        stage.show();
+
+    }
+
+    /**
+     * The actual main method that launches the app
+     *
+     * @param unused
+     */
+    public static void main(String[] args) {
+
+        launch(args);
+    }
+}
